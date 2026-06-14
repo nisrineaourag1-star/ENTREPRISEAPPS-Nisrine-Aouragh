@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="nl">
+<head th:replace="~{fragments/layout :: head('Contact')}"></head>
+<body class="flex flex-col min-h-screen bg-gray-50">
+
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+
+<main class="flex-grow max-w-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
+
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-gray-900">Neem contact op</h1>
+        <p class="text-gray-500 mt-2 text-sm">Heb je een vraag of opmerking? Wij antwoorden zo snel mogelijk.</p>
+    </div>
+
+    <!-- Succesmelding -->
+    <div th:if="${succes}"
+         class="mb-6 bg-ngo-50 border border-ngo-300 rounded-xl px-5 py-4 flex items-start gap-3">
+        <svg class="w-5 h-5 text-ngo-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd"/>
+        </svg>
+        <div>
+            <p class="font-semibold text-ngo-800 text-sm">Bericht verzonden!</p>
+            <p class="text-ngo-700 text-sm mt-0.5">
+                Bedankt voor uw bericht. We nemen zo snel mogelijk contact met u op.
+            </p>
+        </div>
+    </div>
+
+    <!-- Foutmelding -->
+    <div th:if="${fout}"
+         class="mb-6 bg-red-50 border border-red-300 rounded-xl px-5 py-4 flex items-start gap-3">
+        <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clip-rule="evenodd"/>
+        </svg>
+        <p class="text-red-700 text-sm" th:text="${fout}">Fout</p>
+    </div>
+
+    <!-- Formulier -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="bg-ngo-800 px-6 py-5">
+            <h2 class="text-lg font-semibold text-white">Contactformulier</h2>
+        </div>
+
+        <form th:action="@{/contact}" th:object="${contactForm}" method="post" class="p-6 space-y-5">
+
+            <!-- Naam -->
+            <div>
+                <label for="naam" class="block text-sm font-semibold text-gray-700 mb-1">Uw naam *</label>
+                <input type="text" id="naam" th:field="*{naam}" placeholder="Jan Janssen"
+                       th:classappend="${#fields.hasErrors('naam')} ? 'border-red-400 focus:ring-red-400' : 'border-gray-300 focus:ring-ngo-500'"
+                       class="w-full rounded-lg border px-4 py-2 text-sm focus:outline-none focus:ring-2 transition"/>
+                <p th:if="${#fields.hasErrors('naam')}" th:errors="*{naam}"
+                   class="mt-1 text-xs text-red-600"></p>
+            </div>
+
+            <!-- E-mail -->
+            <div>
+                <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">Uw e-mailadres *</label>
+                <input type="email" id="email" th:field="*{email}" placeholder="jan@voorbeeld.be"
+                       th:classappend="${#fields.hasErrors('email')} ? 'border-red-400 focus:ring-red-400' : 'border-gray-300 focus:ring-ngo-500'"
+                       class="w-full rounded-lg border px-4 py-2 text-sm focus:outline-none focus:ring-2 transition"/>
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                   class="mt-1 text-xs text-red-600"></p>
+            </div>
+
+            <!-- Bericht -->
+            <div>
+                <label for="bericht" class="block text-sm font-semibold text-gray-700 mb-1">Uw bericht *</label>
+                <textarea id="bericht" th:field="*{bericht}" rows="5"
+                          placeholder="Schrijf hier uw bericht..."
+                          th:classappend="${#fields.hasErrors('bericht')} ? 'border-red-400 focus:ring-red-400' : 'border-gray-300 focus:ring-ngo-500'"
+                          class="w-full rounded-lg border px-4 py-2 text-sm focus:outline-none focus:ring-2 transition resize-none"></textarea>
+                <p th:if="${#fields.hasErrors('bericht')}" th:errors="*{bericht}"
+                   class="mt-1 text-xs text-red-600"></p>
+            </div>
+
+            <div class="pt-4 border-t border-gray-100">
+                <button type="submit"
+                        class="w-full bg-ngo-700 hover:bg-ngo-600 text-white font-semibold px-6 py-3 rounded-lg shadow transition-colors duration-200 flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                    </svg>
+                    Bericht versturen
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Extra info -->
+    <div class="mt-6 bg-ngo-50 rounded-xl p-4 flex items-start gap-3 text-sm text-ngo-800">
+        <svg class="w-5 h-5 text-ngo-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <p>
+            U kunt ons ook bereiken via <strong>+32 2 523 45 67</strong> of rechtstreeks via
+            <a href="mailto:info@anderlecht-ngo.be" class="underline font-medium">info@anderlecht-ngo.be</a>
+            tijdens onze kantooruren (ma–vr 9:00–17:00).
+        </p>
+    </div>
+
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
