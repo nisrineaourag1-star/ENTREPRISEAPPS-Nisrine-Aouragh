@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="nl">
+<head th:replace="~{fragments/layout :: head('Evenement details')}"></head>
+<body class="flex flex-col min-h-screen bg-gray-50">
+
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+
+<main class="flex-grow max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
+
+    <!-- Terug knop -->
+    <a th:href="@{/}" class="inline-flex items-center gap-1 text-sm text-ngo-700 hover:text-ngo-900 font-medium mb-6 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Terug naar overzicht
+    </a>
+
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <!-- Evenement header -->
+        <div class="bg-gradient-to-r from-ngo-800 to-ngo-600 px-6 py-6">
+            <h1 class="text-2xl font-bold text-white" th:text="${evenement.titel}">Evenement Titel</h1>
+            <p class="text-ngo-100 mt-1 text-sm"
+               th:text="'Georganiseerd door: ' + ${evenement.organisatie}">Organisator</p>
+        </div>
+
+        <!-- Detail velden -->
+        <div class="p-6 space-y-4">
+
+            <!-- Tijdstip -->
+            <div class="flex items-start gap-4 pb-4 border-b border-gray-100">
+                <div class="w-8 h-8 bg-ngo-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <svg class="w-4 h-4 text-ngo-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Datum &amp; tijdstip</p>
+                    <p class="text-gray-800 font-medium mt-0.5"
+                       th:text="${#temporals.format(evenement.tijdstip, 'dd/MM/yyyy HH:mm')}">
+                        Tijdstip
+                    </p>
+                </div>
+            </div>
+
+            <!-- Omschrijving -->
+            <div class="flex items-start gap-4 pb-4 border-b border-gray-100">
+                <div class="w-8 h-8 bg-ngo-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <svg class="w-4 h-4 text-ngo-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 6h16M4 12h16M4 18h12"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Omschrijving</p>
+                    <p class="text-gray-700 mt-0.5 leading-relaxed" th:text="${evenement.omschrijving}">Beschrijving</p>
+                </div>
+            </div>
+
+            <!-- Contactpersoon -->
+            <div class="flex items-start gap-4 pb-4 border-b border-gray-100">
+                <div class="w-8 h-8 bg-ngo-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <svg class="w-4 h-4 text-ngo-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Contact</p>
+                    <a th:href="'mailto:' + ${evenement.contactMail}"
+                       th:text="${evenement.contactMail}"
+                       class="text-ngo-700 hover:text-ngo-900 font-medium mt-0.5 block transition-colors">
+                        e-mail
+                    </a>
+                </div>
+            </div>
+
+            <!-- Locatie -->
+            <div class="flex items-start gap-4">
+                <div class="w-8 h-8 bg-ngo-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <svg class="w-4 h-4 text-ngo-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Locatie</p>
+                    <p class="text-gray-800 font-semibold mt-0.5" th:text="${evenement.locatie.naam}">Locatienaam</p>
+                    <p class="text-gray-500 text-sm" th:text="${evenement.locatie.adres}">Adres</p>
+                    <p class="text-gray-400 text-xs mt-1"
+                       th:text="'Maximale capaciteit: ' + ${evenement.locatie.capaciteit} + ' personen'">
+                        Capaciteit
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

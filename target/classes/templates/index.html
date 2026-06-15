@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="nl">
+<head th:replace="~{fragments/layout :: head('Evenementen')}"></head>
+<body class="flex flex-col min-h-screen bg-gray-50">
+
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+
+<main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
+
+    <!-- Hero banner -->
+    <div class="bg-gradient-to-r from-ngo-800 to-ngo-600 rounded-2xl p-8 mb-8 text-white shadow-lg">
+        <h1 class="text-3xl font-bold mb-2">Welkom bij Anderlecht Gemeenschapshuis</h1>
+        <p class="text-ngo-100 text-lg">Samen bouwen we aan een sterkere gemeenschap in Anderlecht.</p>
+    </div>
+
+    <!-- Tabelkop -->
+    <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-semibold text-gray-800">Recente evenementen</h2>
+        <span class="text-sm text-gray-500">Laatste 10 evenementen</span>
+    </div>
+
+    <!-- Tabel -->
+    <div class="bg-white rounded-xl shadow overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-ngo-800">
+            <tr>
+                <th class="px-6 py-3 text-left text-xs font-semibold text-ngo-100 uppercase tracking-wider">Titel</th>
+                <th class="px-6 py-3 text-left text-xs font-semibold text-ngo-100 uppercase tracking-wider">Organisatie</th>
+                <th class="px-6 py-3 text-left text-xs font-semibold text-ngo-100 uppercase tracking-wider">Datum</th>
+                <th class="px-6 py-3 text-center text-xs font-semibold text-ngo-100 uppercase tracking-wider">Details</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+            <tr th:each="ev, iter : ${evenementen}"
+                th:classappend="${iter.odd} ? 'bg-gray-50' : 'bg-white'"
+                class="hover:bg-ngo-50 transition-colors duration-150">
+                <td class="px-6 py-4 text-sm font-medium text-gray-900" th:text="${ev.titel}">Titel</td>
+                <td class="px-6 py-4 text-sm text-gray-600" th:text="${ev.organisatie}">Organisatie</td>
+                <td class="px-6 py-4 text-sm text-gray-500"
+                    th:text="${#temporals.format(ev.tijdstip, 'dd/MM/yyyy HH:mm')}">Datum</td>
+                <td class="px-6 py-4 text-center">
+                    <a th:href="@{/evenementen/{id}(id=${ev.id})}"
+                       class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-ngo-100 text-ngo-800 hover:bg-ngo-200 transition-colors duration-150">
+                        Bekijk details &rarr;
+                    </a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(evenementen)}">
+                <td colspan="4" class="px-6 py-10 text-center text-gray-400 italic">
+                    Nog geen evenementen gepland.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Knop nieuw evenement -->
+    <div class="mt-6 flex justify-end">
+        <a th:href="@{/evenementen/nieuw}"
+           class="inline-flex items-center gap-2 bg-ngo-700 hover:bg-ngo-600 text-white font-semibold px-6 py-3 rounded-lg shadow transition-colors duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            Nieuw evenement toevoegen
+        </a>
+    </div>
+
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

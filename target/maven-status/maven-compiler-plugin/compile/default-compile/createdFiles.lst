@@ -1,0 +1,13 @@
+be/anderlecht/ngo/repository/LocatieRepository.class
+be/anderlecht/ngo/form/EvenementForm.class
+be/anderlecht/ngo/repository/EvenementRepository.class
+be/anderlecht/ngo/model/Evenement.class
+be/anderlecht/ngo/controller/ContactController.class
+be/anderlecht/ngo/controller/EvenementController.class
+be/anderlecht/ngo/controller/AboutController.class
+be/anderlecht/ngo/service/MailService.class
+be/anderlecht/ngo/form/ContactForm.class
+be/anderlecht/ngo/model/Locatie.class
+be/anderlecht/ngo/controller/IndexController.class
+be/anderlecht/ngo/AnderlechtNgoApplication.class
+be/anderlecht/ngo/DataInitializer.class
